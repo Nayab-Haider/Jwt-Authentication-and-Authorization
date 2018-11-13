@@ -23,9 +23,10 @@ public class SearchRestaurants {
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        Object response = restTemplate.exchange(transactionUrl, HttpMethod.GET,entity, Object.class);
+        ResponseEntity<Object> response = restTemplate.exchange(transactionUrl, HttpMethod.GET, entity, Object.class);
 
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
+        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 }

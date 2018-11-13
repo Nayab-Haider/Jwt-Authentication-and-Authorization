@@ -1,6 +1,6 @@
 package com.example.nayab.domain;
 
-import com.example.nayab.model.Role;
+import com.example.nayab.util.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

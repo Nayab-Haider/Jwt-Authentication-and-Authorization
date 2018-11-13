@@ -35,7 +35,7 @@ public class UserService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return new ResponseEntity<>(jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles()),HttpStatus.OK);
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("invalid credentials",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User does not Exist",HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -43,9 +43,9 @@ public class UserService {
         if (!userRepository.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity<>(jwtTokenProvider.createToken(user.getUsername(), user.getRoles()),HttpStatus.OK);
+            return new ResponseEntity<>("Signup successfull",HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Signup failed",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User Already Exist",HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -57,18 +57,19 @@ public class UserService {
        catch (Exception e){
 
        }
-        return new ResponseEntity<>("Failed to deleted user",HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Failed to delete user",HttpStatus.BAD_REQUEST);
     }
 
-//    public User search(String username) {
-//        User user = userRepository.findByUsername(username);
-//        if (user == null) {
-//            throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
-//        }
-//        return user;
-//    }
 
-    public User whoami(HttpServletRequest req) {
-        return userRepository.findByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
+    public ResponseEntity<?> whoami(HttpServletRequest req) {
+        User currentUser;
+        try {
+            currentUser  = userRepository.findByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken
+                    (req)));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid Token",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(currentUser,HttpStatus.OK);
+
     }
 }

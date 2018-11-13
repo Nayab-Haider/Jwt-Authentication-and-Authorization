@@ -25,45 +25,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationManager();
     }
 
-//    @Override
-//    public void init(WebSecurity web) throws Exception {
-//
-//        // Allow swagger to be accessed without authentication
-//        web.ignoring().antMatchers("/v2/api-docs")//
-//                .antMatchers("/swagger-resources/**")//
-//                .antMatchers("/swagger-ui.html")//
-//                .antMatchers("/configuration/**")//
-//                .antMatchers("/webjars/**")//
-//                .antMatchers("/public")
-//
-//                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-//                .and()
-//                .ignoring()
-//                .antMatchers("/h2-console/**/**");;
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        // Disable CSRF (cross site request forgery)
         http.csrf().disable();
 
-        // No session will be created or used by spring security
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // Entry points
         http.authorizeRequests()//
                 .antMatchers("/v1/login").permitAll()
                 .antMatchers("/v1/signup").permitAll()
                 .antMatchers("/h2-console/**/**").permitAll()
                 .antMatchers("/swagger-ui.html","/v2/api-docs","/webjars/**","/swagger-resources/**","/swagger-ui.html#!/","/configuration/**","/configuration/ui").permitAll()
-                // Disallow everything else..
                 .anyRequest().authenticated();
 
-        // If a user try to access a resource without having enough permissions
         http.exceptionHandling().accessDeniedPage("/login");
 
-        // Apply JWT
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
     }

@@ -1,7 +1,7 @@
 package com.example.nayab;
 
 import com.example.nayab.domain.User;
-import com.example.nayab.model.Role;
+import com.example.nayab.util.Role;
 import com.example.nayab.service.Restaurants.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
