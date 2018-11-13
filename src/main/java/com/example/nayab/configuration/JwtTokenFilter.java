@@ -1,5 +1,7 @@
 package com.example.nayab.configuration;
 
+import com.example.nayab.exception.CustomException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -31,10 +33,10 @@ public class JwtTokenFilter extends GenericFilterBean {
                 Authentication auth = token != null ? jwtTokenProvider.getAuthentication(token) : null;
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        } catch (RuntimeException ex) {
+        } catch (CustomException ex) {
             HttpServletResponse response = (HttpServletResponse) res;
             response.sendError(HttpServletResponse.SC_FORBIDDEN,ex.getMessage());
-            return;
+            throw new CustomException("Expired or invalid JWT token", HttpStatus.FORBIDDEN);
         }
 
         filterChain.doFilter(req, res);

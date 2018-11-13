@@ -13,7 +13,7 @@ public class Restaurants {
     @Autowired
     private SearchRestaurants searchRestaurants;
 
-    @GetMapping("/restaurantssearch")
+    @GetMapping("/search")
     ResponseEntity<?> search(@RequestHeader("Authorization") String authKey){
         return searchRestaurants.listAllRestaurants();
     }

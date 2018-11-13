@@ -1,5 +1,6 @@
 package com.example.nayab.configuration;
 
+import com.example.nayab.exception.CustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,15 +26,12 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
-    /**
-     * THIS IS NOT A SECURE PRACTICE! For simplicity, we are storing a static key here. Ideally, in a
-     * microservices environment, this key would be kept on a config-server.
-     */
+
     @Value("${security.jwt.token.secret-key:secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000; // 1h
+    @Value("${security.jwt.token.expire-length:60000}")
+    private long validityInMilliseconds; // 1h
 
     @Autowired
     private MyUserDetails myUserDetails;
@@ -82,7 +80,7 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            throw new RuntimeException("Expired or invalid JWT token");
+            throw new CustomException("Expired or invalid JWT token",HttpStatus.FORBIDDEN);
         }
     }
 }
