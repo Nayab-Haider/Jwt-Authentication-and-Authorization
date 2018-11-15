@@ -1,12 +1,14 @@
 package com.example.nayab;
 
 import com.example.nayab.domain.User;
+import com.example.nayab.service.Documents.FileStorageProperties;
 import com.example.nayab.util.Role;
 import com.example.nayab.service.Restaurants.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.modelmapper.ModelMapper;
 
@@ -14,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @SpringBootApplication
+@EnableConfigurationProperties({
+		FileStorageProperties.class
+})
 public class NayabApplication implements CommandLineRunner {
 
 	@Autowired
@@ -28,6 +33,8 @@ public class NayabApplication implements CommandLineRunner {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
+
 
 	@Override
 	public void run(String... params) throws Exception {
