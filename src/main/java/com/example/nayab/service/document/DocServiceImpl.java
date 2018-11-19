@@ -1,4 +1,4 @@
-package com.example.nayab.service.Documents;
+package com.example.nayab.service.document;
 
 import com.example.nayab.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,8 +22,8 @@ public class DocServiceImpl implements DocService {
     private final Path fileStorageLocation;
 
     @Autowired
-    public DocServiceImpl(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+    public DocServiceImpl(FileStorageServiceProperties fileStorageServiceProperties) {
+        this.fileStorageLocation = Paths.get(fileStorageServiceProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 
         try {

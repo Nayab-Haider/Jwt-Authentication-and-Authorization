@@ -1,4 +1,4 @@
-package com.example.nayab.service.Restaurants;
+package com.example.nayab.service.restaurant;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class SearchRestaurants {
+public class RestaurantService {
 
     public ResponseEntity<?> listAllRestaurants() {
 //        RestTemplate restTemplate = new RestTemplate();

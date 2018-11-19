@@ -1,8 +1,8 @@
-package com.example.nayab.service.Restaurants;
+package com.example.nayab.service.authenticate;
 
 import com.example.nayab.configuration.JwtTokenProvider;
-import com.example.nayab.domain.User;
-import com.example.nayab.repository.UserRepository;
+import com.example.nayab.domain.user.User;
+import com.example.nayab.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 
 @Service
-public class UserService {
+public class AuthenticationService {
 
 
     @Autowired

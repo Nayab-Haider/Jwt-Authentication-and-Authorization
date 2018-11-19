@@ -1,8 +1,7 @@
-package com.example.nayab.repository;
+package com.example.nayab.repository.user;
 
-import com.example.nayab.domain.User;
+import com.example.nayab.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import org.springframework.stereotype.Repository;
 

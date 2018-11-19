@@ -1,4 +1,4 @@
-package com.example.nayab.util;
+package com.example.nayab.util.authenticate;
 
 import lombok.Data;
 

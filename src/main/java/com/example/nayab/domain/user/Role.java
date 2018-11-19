@@ -1,4 +1,4 @@
-package com.example.nayab.util;
+package com.example.nayab.domain.user;
 
 import org.springframework.security.core.GrantedAuthority;
 
