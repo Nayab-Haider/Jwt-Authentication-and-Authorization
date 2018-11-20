@@ -1,7 +1,7 @@
 package com.example.nayab.configuration;
 
-import com.example.nayab.domain.User;
-import com.example.nayab.repository.UserRepository;
+import com.example.nayab.domain.user.User;
+import com.example.nayab.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

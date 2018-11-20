@@ -1,9 +1,9 @@
 package com.example.nayab;
 
-import com.example.nayab.domain.User;
-import com.example.nayab.service.Documents.FileStorageProperties;
-import com.example.nayab.util.Role;
-import com.example.nayab.service.Restaurants.UserService;
+import com.example.nayab.domain.user.Role;
+import com.example.nayab.domain.user.User;
+import com.example.nayab.service.document.FileStorageServiceProperties;
+import com.example.nayab.service.authenticate.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,12 +17,12 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-		FileStorageProperties.class
+		FileStorageServiceProperties.class
 })
 public class NayabApplication implements CommandLineRunner {
 
 	@Autowired
-	private UserService userService;
+	private AuthenticationService authenticationService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(NayabApplication.class, args);
@@ -44,7 +44,7 @@ public class NayabApplication implements CommandLineRunner {
 		admin.setEmail("admin@email.com");
 		admin.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_ADMIN)));
 
-		userService.signup(admin);
+		authenticationService.signup(admin);
 
 		User client = new User();
 		client.setUsername("client");
@@ -52,6 +52,6 @@ public class NayabApplication implements CommandLineRunner {
 		client.setEmail("client@email.com");
 		client.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
 
-		userService.signup(client);
+		authenticationService.signup(client);
 	}
 }

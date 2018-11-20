@@ -1,4 +1,4 @@
-package com.example.nayab.service.Documents;
+package com.example.nayab.service.document;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

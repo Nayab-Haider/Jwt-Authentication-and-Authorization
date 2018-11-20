@@ -1,7 +1,5 @@
-package com.example.nayab.domain;
+package com.example.nayab.domain.user;
 
-import com.example.nayab.util.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;

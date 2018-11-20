@@ -1,21 +1,20 @@
-package com.example.nayab.controller;
+package com.example.nayab.controller.restaurants;
 
-import com.example.nayab.domain.User;
-import com.example.nayab.service.Restaurants.SearchRestaurants;
+import com.example.nayab.service.restaurant.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1")
-public class Restaurants {
+public class RestaurantsController {
 
     @Autowired
-    private SearchRestaurants searchRestaurants;
+    private RestaurantService restaurantService;
 
     @GetMapping("/search")
     ResponseEntity<?> search(@RequestHeader("Authorization") String authKey){
-        return searchRestaurants.listAllRestaurants();
+        return restaurantService.listAllRestaurants();
     }
 }
 

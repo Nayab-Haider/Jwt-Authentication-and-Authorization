@@ -1,6 +1,6 @@
-package com.example.nayab.controller;
+package com.example.nayab.controller.document;
 
-import com.example.nayab.service.Documents.DocService;
+import com.example.nayab.service.document.DocService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/v1")
-public class UploadDoc {
+public class DocumentController {
 
     @Autowired
     private DocService docService;
@@ -26,7 +26,7 @@ public class UploadDoc {
     }
 
     @GetMapping("/download/{fileName:.+}")
-    ResponseEntity<?> downloadDoc(@RequestHeader("Authorization") String authKey,@PathVariable String fileName, HttpServletRequest request){
+    ResponseEntity<?> downloadDoc(@PathVariable String fileName, HttpServletRequest request){
         Resource resource = docService.loadFileAsResource(fileName);
 
         // Try to determine file's content type
