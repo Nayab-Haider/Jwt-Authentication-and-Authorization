@@ -4,6 +4,7 @@ import com.example.nayab.configuration.JwtTokenProvider;
 import com.example.nayab.controller.authenticate.AuthenticationController;
 import com.example.nayab.domain.user.User;
 import com.example.nayab.repository.user.UserRepository;
+import com.example.nayab.util.response.ResponseDomain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,9 @@ public class AuthenticationService {
 
     public ResponseEntity<?> signin(String username, String password) {
         logger.info("Entering into AuthenticationService inside method signin");
-        try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             logger.info("Returning from AuthenticationService inside method signin");
-            return new ResponseEntity<>(jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles()),HttpStatus.OK);
-        } catch (AuthenticationException e) {
-            logger.error("Returning from AuthenticationService inside method signin");
-            return new ResponseEntity<>("User does not Exist",HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(new ResponseDomain(jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles()),true),HttpStatus.OK);
     }
 
     public  ResponseEntity<?> signup(User user) {
@@ -52,29 +48,33 @@ public class AuthenticationService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             logger.info("Returning from AuthenticationService inside method signup");
-            return new ResponseEntity<>("Signup successfull",HttpStatus.OK);
+
+            return new ResponseEntity<>( new ResponseDomain("Signup successfull",true),HttpStatus.OK);
         } else {
             logger.error("Returning from AuthenticationService inside method signup");
-            return new ResponseEntity<>("User Already Exist",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDomain("User Already Exist",false),HttpStatus.BAD_REQUEST);
         }
     }
 
     public ResponseEntity<?> delete(String username) {
-        logger.info("Entering into AuthenticationService inside method delete");
-       try {
-           userRepository.deleteByUsername(username);
-           logger.info("Returning from AuthenticationService inside method delete");
-           return new ResponseEntity<>("Successfully deleted user",HttpStatus.OK);
-       }
-       catch (Exception e){
 
-       }
+        //TODO: thorw some Exception if user does not exist
+        logger.info("Entering into AuthenticationService inside method delete");
+        try {
+            userRepository.deleteByUsername(username);
+            logger.info("Returning from AuthenticationService inside method delete");
+            return new ResponseEntity<>("Successfully deleted user",HttpStatus.OK);
+        }
+        catch (Exception e){
+
+        }
         logger.error("Returning from AuthenticationService inside method delete");
         return new ResponseEntity<>("Failed to delete user",HttpStatus.BAD_REQUEST);
     }
 
 
     public ResponseEntity<?> whoami(HttpServletRequest req) {
+        //TODO: thorw some Exception if token is invalid
         logger.info("Entering into AuthenticationService inside method whoami");
         User currentUser;
         try {

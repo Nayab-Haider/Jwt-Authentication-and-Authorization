@@ -1,9 +1,12 @@
 package com.example.nayab;
 
+import com.example.nayab.controller.authenticate.AuthenticationController;
 import com.example.nayab.domain.user.Role;
 import com.example.nayab.domain.user.User;
 import com.example.nayab.service.document.FileStorageServiceProperties;
 import com.example.nayab.service.authenticate.AuthenticationService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,8 +27,13 @@ public class NayabApplication implements CommandLineRunner {
 	@Autowired
 	private AuthenticationService authenticationService;
 
+	private static final Logger logger= LogManager.getLogger(AuthenticationController.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(NayabApplication.class, args);
+		logger.info(" ------------------------------------------------------");
+		logger.info("|               SERVER STARTED                        |");
+		logger.info(" ------------------------------------------------------");
 	}
 
 

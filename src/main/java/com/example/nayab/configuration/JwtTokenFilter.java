@@ -1,8 +1,5 @@
 package com.example.nayab.configuration;
 
-import com.example.nayab.exception.AuthenticationFailed;
-import com.example.nayab.exception.CustomException;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -12,9 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 public class JwtTokenFilter extends GenericFilterBean {
 

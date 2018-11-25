@@ -1,4 +1,4 @@
-package com.example.nayab.exception;
+package com.example.nayab.exception.authentication;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
