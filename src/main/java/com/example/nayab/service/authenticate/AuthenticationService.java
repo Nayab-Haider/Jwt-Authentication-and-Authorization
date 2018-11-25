@@ -3,6 +3,7 @@ package com.example.nayab.service.authenticate;
 import com.example.nayab.configuration.JwtTokenProvider;
 import com.example.nayab.controller.authenticate.AuthenticationController;
 import com.example.nayab.domain.user.User;
+import com.example.nayab.exception.authentication.AuthenticationFailed;
 import com.example.nayab.repository.user.UserRepository;
 import com.example.nayab.util.response.ResponseDomain;
 import org.apache.logging.log4j.LogManager;
@@ -58,18 +59,14 @@ public class AuthenticationService {
 
     public ResponseEntity<?> delete(String username) {
 
-        //TODO: thorw some Exception if user does not exist
-        logger.info("Entering into AuthenticationService inside method delete");
-        try {
-            userRepository.deleteByUsername(username);
-            logger.info("Returning from AuthenticationService inside method delete");
-            return new ResponseEntity<>("Successfully deleted user",HttpStatus.OK);
-        }
-        catch (Exception e){
-
-        }
-        logger.error("Returning from AuthenticationService inside method delete");
-        return new ResponseEntity<>("Failed to delete user",HttpStatus.BAD_REQUEST);
+           logger.info("Entering into AuthenticationService inside method delete");
+            int result = userRepository.deleteByUsername(username);
+            if(result>0){
+                logger.info("Returning from AuthenticationService inside method delete");
+                return new ResponseEntity<>(new ResponseDomain("Successfully deleted user",true),HttpStatus.OK);
+            }
+            else
+                throw new AuthenticationFailed("User does not exist");
     }
 
 
