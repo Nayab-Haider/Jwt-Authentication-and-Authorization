@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 
 @Service
 public class DocServiceImpl implements DocService {
@@ -29,8 +30,8 @@ public class DocServiceImpl implements DocService {
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
-            throw new CustomException("Could not create the directory where the uploaded files will be stored.",
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomException(new Date(),"Could not create the directory where the uploaded files will be stored.",
+                    "HttpStatus.INTERNAL_SERVER_ERROR");
         }
     }
 
@@ -42,7 +43,7 @@ public class DocServiceImpl implements DocService {
         try {
             // Check if the file's name contains invalid characters
             if(fileName.contains("..")) {
-                throw new CustomException("Sorry! Filename contains invalid path sequence " + fileName,HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new CustomException(new Date(),"Sorry! Filename contains invalid path sequence ","");
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
@@ -65,10 +66,10 @@ public class DocServiceImpl implements DocService {
             if(resource.exists()) {
                 return resource;
             } else {
-                throw new CustomException("File not found " + fileName,HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new CustomException(new Date(),"HttpStatus.INTERNAL_SERVER_ERROR","");
             }
         } catch (MalformedURLException ex) {
-            throw new CustomException("File not found " + fileName,HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomException(new Date(),"HttpStatus.INTERNAL_SERVER_ERROR","");
         }
     }
 }

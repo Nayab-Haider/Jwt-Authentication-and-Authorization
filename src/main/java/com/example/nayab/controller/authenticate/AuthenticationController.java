@@ -24,6 +24,7 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     ResponseEntity<?> sigup(@RequestBody User user){
+
         return authenticationService.signup(user);
     }
 
