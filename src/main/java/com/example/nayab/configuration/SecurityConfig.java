@@ -1,5 +1,7 @@
 package com.example.nayab.configuration;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,27 +22,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    private static  final Logger log = LogManager.getLogger(SecurityConfig.class);
+
     @Bean
     public AuthenticationManager customAuthenticationManager() throws Exception {
+        log.info("Entering into SecurityConfig inside constructor");
         return authenticationManager();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.csrf().disable();
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http.authorizeRequests()//
+        log.info("Entering into SecurityConfig inside method configure");
+        http.cors().and().csrf().disable().authorizeRequests()//
                 .antMatchers("/v1/login").permitAll()
                 .antMatchers("/v1/signup").permitAll()
                 .antMatchers("/v1/download/**").permitAll()
                 .antMatchers("/h2-console/**/**").permitAll()
                 .antMatchers("/swagger-ui.html","/v2/api-docs","/webjars/**","/swagger-resources/**","/swagger-ui.html#!/","/configuration/**","/configuration/ui").permitAll()
-                .anyRequest().authenticated();
-
-        http.exceptionHandling().accessDeniedPage("/login");
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
