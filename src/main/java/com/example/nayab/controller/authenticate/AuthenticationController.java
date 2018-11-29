@@ -1,8 +1,8 @@
 package com.example.nayab.controller.authenticate;
 
 import com.example.nayab.domain.user.User;
-import com.example.nayab.util.authenticate.LoginCredentials;
 import com.example.nayab.service.authenticate.AuthenticationService;
+import com.example.nayab.util.authenticate.LoginCredentials;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,12 @@ public class AuthenticationController {
     ResponseEntity<?> knowMe(HttpServletRequest request,@RequestHeader("Authorization") String authKey){
         logger.info("Entering into AuthenticationController inside method knowMe");
         return authenticationService.whoami(request);
+    }
+
+    @PostMapping("/forgotpassword/{userName}")
+    ResponseEntity<?> forgotPassword(@PathVariable String userName){
+        logger.info("Entering into AuthenticationController inside method forgotPassword");
+        return authenticationService.forgotPassword(userName);
     }
 
 
