@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByUsername(String username);
 
+    User findUserByResetToken(String resetToken);
+
     @Transactional
     int deleteByUsername(String username);
 }

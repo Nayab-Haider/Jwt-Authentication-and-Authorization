@@ -17,6 +17,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,6 +34,8 @@ public interface AuthenticationService {
 
     public ResponseEntity<?> whoami(HttpServletRequest req);
 
-    public ResponseEntity<?> forgotPassword(String userName);
+    public ResponseEntity<?> forgotPassword(HttpServletRequest request, String userName);
+
+    public ResponseEntity<?> resetPassword(String requestParams,String password);
 
 }

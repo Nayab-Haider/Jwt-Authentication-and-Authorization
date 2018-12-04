@@ -8,8 +8,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RequestMapping("/v1")
 @RestController
@@ -45,9 +47,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/forgotpassword/{userName}")
-    ResponseEntity<?> forgotPassword(@PathVariable String userName){
+    ResponseEntity<?> forgotPassword(HttpServletRequest request,@PathVariable String userName){
         logger.info("Entering into AuthenticationController inside method forgotPassword");
-        return authenticationService.forgotPassword(userName);
+        return authenticationService.forgotPassword(request,userName);
+    }
+
+    @PostMapping("/resetpassword")
+    ResponseEntity<?> resetPassword(@RequestParam String requestParams, @RequestParam String password){
+        logger.info("Entering into AuthenticationController inside method forgotPassword");
+        return authenticationService.resetPassword(requestParams,password);
     }
 
 

@@ -16,8 +16,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.UUID;
+import java.util.Optional;
+
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService{
 
@@ -89,12 +94,16 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     }
 
     @Override
-    public ResponseEntity<?> forgotPassword(String userName) {
+    public ResponseEntity<?> forgotPassword(HttpServletRequest request, String userName) {
         logger.info("Entering into AuthenticationService inside method forgotPassword");
         User currentUser=null;
         try {
             currentUser  = userRepository.findByUsername(userName);
-            myMailSender.sendMail(new MailModel(currentUser.getEmail(),"support.proh2r@niletechnologies.com","SUBJECT","MESSAGE"));
+            userRepository.save(currentUser);
+            String appUrl = request.getScheme() + "://" + request.getServerName();
+            currentUser.setResetToken(UUID.randomUUID().toString());
+            myMailSender.sendMail(new MailModel(currentUser.getEmail(),"support.proh2r@niletechnologies.com","Password Reset Request","To reset your password, click the link below:\n" + appUrl
+                    + "/reset?token=" + currentUser.getResetToken()));
             return new ResponseEntity<>(currentUser,HttpStatus.OK);
 
         }catch (Exception e){
@@ -103,5 +112,25 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         logger.info("Returning from AuthenticationService inside method forgotPassword");
         return new ResponseEntity<>(currentUser,HttpStatus.OK);
 
+    }
+
+    @Override
+    public ResponseEntity<?> resetPassword(String requestParams,String password) {
+        logger.info("Entering into AuthenticationService inside method resetPassword");
+        User currentUser=null;
+        currentUser=userRepository.findUserByResetToken(requestParams);
+            if (currentUser!=null){
+                currentUser.setPassword(passwordEncoder.encode(password));
+                currentUser.setResetToken(null);
+                userRepository.save(currentUser);
+                return new ResponseEntity<>("Password Reset successfully",HttpStatus.OK);
+
+            }
+        logger.info("Returning from AuthenticationService inside method forgotPassword");
+
+        // This should always be non-null but we check just in case
+
+
+        return new ResponseEntity<>("Failed to Reset Password",HttpStatus.BAD_REQUEST);
     }
 }
