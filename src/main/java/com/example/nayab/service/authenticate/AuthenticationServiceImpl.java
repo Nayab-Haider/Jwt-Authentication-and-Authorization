@@ -100,11 +100,12 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         User currentUser=null;
         try {
             currentUser  = userRepository.findByUsername(userName);
-            userRepository.save(currentUser);
+
             String appUrl = request.getScheme() + "://" + request.getServerName();
             currentUser.setResetToken(UUID.randomUUID().toString());
             myMailSender.sendMail(new MailModel(currentUser.getEmail(),"support.proh2r@niletechnologies.com","Password Reset Request","To reset your password, click the link below:\n" + appUrl
                     + "/reset?token=" + currentUser.getResetToken()));
+            userRepository.save(currentUser);
             return new ResponseEntity<>(currentUser,HttpStatus.OK);
 
         }catch (Exception e){
