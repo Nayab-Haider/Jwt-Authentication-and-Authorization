@@ -40,7 +40,7 @@ public class JwtTokenFilter extends GenericFilterBean {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
-        catch (SignatureException e){
+        catch (Exception e){
             e.printStackTrace();
         }
         log.info("Exsting from  JwtTokenFilter from method doFilter");

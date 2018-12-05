@@ -1,5 +1,6 @@
 package com.example.nayab.service.authenticate;
 
+import com.example.nayab.util.authenticate.ResetPassword;
 import com.example.nayab.util.mail.MailModel;
 import com.example.nayab.util.mail.MyMailSender;
 import com.example.nayab.configuration.JwtTokenProvider;
@@ -115,12 +116,12 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     }
 
     @Override
-    public ResponseEntity<?> resetPassword(String requestParams,String password) {
+    public ResponseEntity<?> resetPassword(ResetPassword resetPassword) {
         logger.info("Entering into AuthenticationService inside method resetPassword");
         User currentUser=null;
-        currentUser=userRepository.findUserByResetToken(requestParams);
+        currentUser=userRepository.findUserByResetToken(resetPassword.getToken());
             if (currentUser!=null){
-                currentUser.setPassword(passwordEncoder.encode(password));
+                currentUser.setPassword(passwordEncoder.encode(resetPassword.getPassword()));
                 currentUser.setResetToken(null);
                 userRepository.save(currentUser);
                 return new ResponseEntity<>("Password Reset successfully",HttpStatus.OK);

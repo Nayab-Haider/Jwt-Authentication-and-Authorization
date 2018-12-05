@@ -3,6 +3,7 @@ package com.example.nayab.controller.authenticate;
 import com.example.nayab.domain.user.User;
 import com.example.nayab.service.authenticate.AuthenticationService;
 import com.example.nayab.util.authenticate.LoginCredentials;
+import com.example.nayab.util.authenticate.ResetPassword;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/resetpassword")
-    ResponseEntity<?> resetPassword(@RequestParam String requestParams, @RequestParam String password){
+    ResponseEntity<?> resetPassword(@RequestBody ResetPassword resetPassword){
         logger.info("Entering into AuthenticationController inside method forgotPassword");
-        return authenticationService.resetPassword(requestParams,password);
+        return authenticationService.resetPassword(resetPassword);
     }
 
 

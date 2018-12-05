@@ -5,6 +5,7 @@ import com.example.nayab.controller.authenticate.AuthenticationController;
 import com.example.nayab.domain.user.User;
 import com.example.nayab.exception.authentication.AuthenticationFailed;
 import com.example.nayab.repository.user.UserRepository;
+import com.example.nayab.util.authenticate.ResetPassword;
 import com.example.nayab.util.response.ResponseDomain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +37,6 @@ public interface AuthenticationService {
 
     public ResponseEntity<?> forgotPassword(HttpServletRequest request, String userName);
 
-    public ResponseEntity<?> resetPassword(String requestParams,String password);
+    public ResponseEntity<?> resetPassword(ResetPassword resetPassword);
 
 }
