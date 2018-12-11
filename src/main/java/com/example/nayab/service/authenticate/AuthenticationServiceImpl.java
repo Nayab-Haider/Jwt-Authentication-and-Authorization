@@ -1,5 +1,6 @@
 package com.example.nayab.service.authenticate;
 
+import com.example.nayab.util.CustomGenerator;
 import com.example.nayab.util.mail.MailModel;
 import com.example.nayab.util.mail.MyMailSender;
 import com.example.nayab.configuration.JwtTokenProvider;
@@ -42,6 +43,9 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     @Autowired
     private MyMailSender myMailSender;
 
+    @Autowired
+    private CustomGenerator customGenerator;
+
     private static final Logger logger= LogManager.getLogger(AuthenticationService.class);
 
     public ResponseEntity<?> signin(String username, String password) {
@@ -55,6 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         logger.info("Entering into AuthenticationService inside method signup");
         if (!userRepository.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+
             userRepository.save(user);
             logger.info("Returning from AuthenticationService inside method signup");
 

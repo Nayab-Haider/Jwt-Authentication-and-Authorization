@@ -1,6 +1,7 @@
 package com.example.nayab.domain.user;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -11,8 +12,9 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GenericGenerator(name = "generator", strategy = "com.example.nayab.util.CustomGenerator")
+    @GeneratedValue(generator = "generator")
+    private String id;
 
     @Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
     @Column(unique = true, nullable = false)

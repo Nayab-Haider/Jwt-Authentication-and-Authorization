@@ -53,7 +53,7 @@ public class NayabApplication implements CommandLineRunner {
 		admin.setEmail("admin@email.com");
 		admin.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_ADMIN)));
 
-		authenticationService.signup(admin);
+//		authenticationService.signup(admin);
 
 		User client = new User();
 		client.setUsername("client");
@@ -61,7 +61,7 @@ public class NayabApplication implements CommandLineRunner {
 		client.setEmail("client@email.com");
 		client.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
 
-		authenticationService.signup(client);
+//		authenticationService.signup(client);
 	}
 
 }
