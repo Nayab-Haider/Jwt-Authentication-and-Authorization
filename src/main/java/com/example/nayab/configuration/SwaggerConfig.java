@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public Docket leaveApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.nayab.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.nayab"))
                 .paths(PathSelectors.any())
                 .build();
     }

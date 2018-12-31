@@ -1,5 +1,6 @@
 package com.example.nayab.service.authenticate;
 
+import com.example.nayab.configuration.RefreshToken;
 import com.example.nayab.util.CustomGenerator;
 import com.example.nayab.util.authenticate.ResetPassword;
 import com.example.nayab.util.mail.MailModel;
@@ -12,18 +13,18 @@ import com.example.nayab.util.response.ResponseDomain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import java.util.Base64;
 import java.util.UUID;
-import java.util.Optional;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService{
@@ -47,6 +48,14 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     @Autowired
     private CustomGenerator customGenerator;
 
+    @Value("${security.jwt.token.secret-key:secret-key}")
+    private String secretKey;
+
+    @PostConstruct
+    protected void init() {
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    }
+
     private static final Logger logger= LogManager.getLogger(AuthenticationService.class);
 
     public ResponseEntity<?> signin(String username, String password) {
@@ -60,7 +69,6 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         logger.info("Entering into AuthenticationService inside method signup");
         if (!userRepository.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-
             userRepository.save(user);
             logger.info("Returning from AuthenticationService inside method signup");
 
@@ -140,4 +148,20 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
         return new ResponseEntity<>("Failed to Reset Password",HttpStatus.BAD_REQUEST);
     }
+
+    @Override
+    public ResponseEntity<?> refreshToken(HttpServletRequest req) {
+
+        User currentUser;
+        try {
+            currentUser  = userRepository.findByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken
+                    (req)));
+        }catch (Exception e){
+            logger.error("Returning from AuthenticationService inside method refreshToken");
+            return new ResponseEntity<>("Invalid Token",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(new ResponseDomain(jwtTokenProvider.createToken(currentUser.getUsername(), userRepository.findByUsername(currentUser.getUsername()).getRoles()),true), HttpStatus.OK);
+    }
+
+
 }

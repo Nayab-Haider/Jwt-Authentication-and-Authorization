@@ -23,20 +23,20 @@ public class CustomGenerator implements IdentifierGenerator {
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
         Connection connection = sharedSessionContractImplementor.connection();
 
-        try {
-            Statement statement=connection.createStatement();
-
-            ResultSet rs=statement.executeQuery("select count(id) as Id from login_user");
-
-            if(rs.next())
-            {
-                int id=rs.getInt(1)+101;
-                String generatedId = name + new Integer(id).toString();
-                return generatedId;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Statement statement=connection.createStatement();
+//
+//            ResultSet rs=statement.executeQuery("select count(id) as Id from login_user");
+//
+//            if(rs.next())
+//            {
+//                int id=rs.getInt(1)+101;
+//                String generatedId = name + new Integer(id).toString();
+//                return generatedId;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         return null;
     }

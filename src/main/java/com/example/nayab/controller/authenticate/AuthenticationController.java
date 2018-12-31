@@ -9,12 +9,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
-@RequestMapping("/v1")
+@RequestMapping("/v1/auth")
 @RestController
 public class AuthenticationController {
 
@@ -57,6 +55,12 @@ public class AuthenticationController {
     ResponseEntity<?> resetPassword(@RequestBody ResetPassword resetPassword){
         logger.info("Entering into AuthenticationController inside method forgotPassword");
         return authenticationService.resetPassword(resetPassword);
+    }
+
+    @GetMapping("/refresh_token")
+    ResponseEntity<?> refreshToken(HttpServletRequest request,@RequestHeader("Authorization") String authKey){
+        logger.info("Entering into AuthenticationController inside method refreshToken");
+        return authenticationService.refreshToken(request);
     }
 
 

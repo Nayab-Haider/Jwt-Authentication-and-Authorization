@@ -12,9 +12,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GenericGenerator(name = "generator", strategy = "com.example.nayab.util.CustomGenerator")
-    @GeneratedValue(generator = "generator")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
     @Column(unique = true, nullable = false)
@@ -31,5 +30,10 @@ public class User {
 
     @Column(name = "reset_token")
     private String resetToken;
+
+    @PostPersist
+    public void setId(){
+        this.username=this.id+"-"+this.getUsername();
+    }
 
 }

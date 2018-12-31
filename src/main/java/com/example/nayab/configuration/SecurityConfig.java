@@ -38,11 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         log.info("Entering into SecurityConfig inside method configure");
         http.cors().and().csrf().disable().authorizeRequests()//
-                .antMatchers("/v1/login").permitAll()
-                .antMatchers("/v1/signup").permitAll()
-                .antMatchers("/v1/forgotpassword/*").permitAll()
-                .antMatchers("/v1/resetpassword").permitAll()
-                .antMatchers("/v1/download/**").permitAll()
+                .antMatchers("/v1/auth/login").permitAll()
+                .antMatchers("/v1/auth/signup").permitAll()
+                .antMatchers("/v1/auth/forgotpassword/*").permitAll()
+                .antMatchers("/v1/auth/resetpassword").permitAll()
+                .antMatchers("/v1/auth/download/**").permitAll()
                 .antMatchers("/h2-console/**/**").permitAll()
                 .antMatchers("/swagger-ui.html","/v2/api-docs","/webjars/**","/swagger-resources/**","/swagger-ui.html#!/","/configuration/**","/configuration/ui").permitAll()
                 .anyRequest().authenticated()
@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder(12);
     }
 
