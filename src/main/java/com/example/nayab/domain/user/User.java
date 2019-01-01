@@ -1,15 +1,17 @@
 package com.example.nayab.domain.user;
 
+import com.example.nayab.configuration.Auditable;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity(name = "loginUser")
-public class User {
+public class User extends Auditable<String>  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,13 +1,15 @@
 package com.example.nayab.domain.user;
 
+import com.example.nayab.configuration.Auditable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity(name="billingAddress")
-public class BillingAddress {
+public class BillingAddress extends Auditable<String>  implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
