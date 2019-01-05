@@ -2,6 +2,7 @@
 Application build on spring boot using Spring Security(JWT) for Authentication and Authorization
 
 TECHNOLOGY : Spring Boot and JPA 
+
 FEATURES :
 1) JWT Authentication and Authroization 
 2) AWS S3 File upload and download
